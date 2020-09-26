@@ -49,7 +49,7 @@ class ViewportHeightFix extends Component {
   constructor(props) {
     super(props);
     this.state = { clientHeight: null };
-    this.handleResize = this.handleResize.bind(this.handleResize);
+    this.handleResize = this.handleResize.bind(this);
   }
 
   componentDidMount() {
@@ -100,7 +100,6 @@ class App extends Component {
 }
 
 function init() {
-  console.log({App, document, html});
   render(html`<${App}/>`, document.body);
 }
 
