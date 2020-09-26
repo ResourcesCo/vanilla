@@ -2,13 +2,13 @@
 https://github.com/postcss/postcss-100vh-fix
 and https://github.com/Faisal-Manzer/postcss-viewport-height-correction/
 */
-body {
+.full-height {
   height: calc(100 * var(--vh, 1vh));
 }
 
 /* Avoid Chrome to see Safari hack */
 @supports (-webkit-touch-callout: none) {
-  body {
+  .full-height {
     /* The hack for Safari */
     height: -webkit-fill-available;
   }
@@ -28,8 +28,6 @@ html {
 
 .switch-layout {
   display: flex;
-  height: 100%;
-  width: 100%;
   flex-direction: column;
 }
 

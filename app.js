@@ -28,7 +28,7 @@ function Switch() {
 }
 
 function SwitchLayout() {
-  return html`<div class="switch-layout">
+  return html`<div class="switch-layout full-height">
     <div class="main-pane">
       <div class="tree-pane"></div>
       <div class="data-pane"></div>
