@@ -16,25 +16,52 @@ function SwitchBorderImage() {
   </svg>`
 }
 
-function Switch() {
+function Switch({checked, onClick}) {
   return html`<div class="switch-box">
     <${SwitchBorderImage}/>
     <div class="switch-border">
-      <div class="switch">
+      <div class=${`switch ${checked ? 'checked' : ''}`} onClick=${onClick}>
         <div class="knob"></div>
       </div>
     </div>
   </div>`
 }
 
-function SwitchLayout() {
-  return html`<div class="switch-layout full-height">
-    <div class="main-pane">
-      <div class="tree-pane"></div>
-      <div class="data-pane"></div>
-    </div>
-    <div class="switch-pane"><${Switch} /></div>
-  </div>`
+class SwitchControl extends Component {
+  constructor(props) {
+    super(props);
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.props.onChange(!this.props.checked);
+  }
+
+  render({checked}) {
+    return html`<div class="switch-pane"><${Switch} onClick=${this.toggle} checked=${checked} /></div>`
+  }
+}
+
+class SwitchLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { showDataPane: false };
+    this.handleSwitchChange = this.handleSwitchChange.bind(this);
+  }
+
+  handleSwitchChange(checked) {
+    this.setState({showDataPane: checked});
+  }
+
+  render() {
+    return html`<div class="switch-layout full-height">
+      <div class="main-pane">
+        <div class="tree-pane"></div>
+        <div class="data-pane"></div>
+      </div>
+      <${SwitchControl} checked=${this.state.showDataPane} onChange=${this.handleSwitchChange} />
+    </div>`
+  }
 }
 
 function SplitLayout() {
@@ -83,13 +110,17 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const mql = window.matchMedia("(min-width: 640px)");
-    this.setState({splitView: mql.matches});
-    mql.addEventListener('change', this.handleMatchMediaChange);
+    this.mql = window.matchMedia("(min-width: 640px)");
+    this.setState({splitView: this.mql.matches});
+    this.mql.addListener(this.handleMatchMediaChange);
   }
 
-  handleMatchMediaChange({matches}) {
-    this.setState({splitView: matches});
+  componentWillUnmount() {
+    this.mql.removeListener(this.handleMatchMediaChange);
+  }
+
+  handleMatchMediaChange(e) {
+    this.setState({splitView: e.matches});
   }
 
   render({}, {splitView}) {

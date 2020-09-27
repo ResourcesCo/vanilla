@@ -70,14 +70,22 @@ html {
 .switch {
   width: 100%;
   height: 100%;
+  padding: 4px;
   background-color: #ddd;
   border-radius: 999px;
-  padding: 4px;
+  position: relative;
 }
 
 .knob {
   border-radius: 999px;
-  height: 100%;
+  margin-left: 0;
+  right: auto;
+  height: 21px;
   width: 21px;
   background-color: turquoise;
+  transition: margin-left 0.1s ease-out;
+}
+
+.switch.checked .knob {
+  margin-left: calc(100% - 21px);
 }
